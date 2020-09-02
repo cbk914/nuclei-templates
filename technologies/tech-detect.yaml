@@ -2,11 +2,14 @@ id: tech-detect
 info:
   name: Wappalyzer Technology Detection
   author: hakluke
-  severity: informative
+  severity: info
 requests:
   - method: GET
     path:
       - "{{BaseURL}}/"
+
+    redirects: true
+    max-redirects: 2
     matchers-condition: or
     matchers:
       - type: regex
@@ -15,6 +18,15 @@ requests:
           - <img[^>]+\.mollom\.com
         condition: or
         part: body
+
+      - type: word
+        name: atlassian-jira
+        words:
+          - "Project Management Software"
+          - "atlassian.com/software/jira"
+        condition: and
+        part: body
+
       - type: regex
         name: genexus
         regex:
@@ -1024,6 +1036,11 @@ requests:
         regex:
           - <div id="copyright">Powered by vBulletin
         condition: or
+      - type: word
+        name: vbulletin
+        words:
+          - 'vBulletin.version'
+          - 'content="vBulletin'
         part: body
       - type: regex
         name: meteor
@@ -1705,12 +1722,7 @@ requests:
           - <a href="http://www\.liveinternet\.ru/click"
         condition: or
         part: body
-      - type: regex
-        name: atlassian-jira
-        regex:
-          - 'Powered by\s+<a href=[^>]+atlassian\.com/(?:software/jira|jira-bug-tracking/)[^>]+>Atlassian\s+JIRA(?:[^v]*v(?:ersion: )?(\d+\.\d+(?:\.\d+)?))?'
-        condition: or
-        part: body
+
       - type: regex
         name: sdl-tridion
         regex:
@@ -1827,8 +1839,11 @@ requests:
         name: drupal
         regex:
           - <(?:link|style)[^>]+"/sites/(?:default|all)/(?:themes|modules)/
+          - "X-Drupal"
+          - "x-drupal"
+          - "X-Generator: Drupal"
         condition: or
-        part: body
+        part: all
       - type: regex
         name: webxpay
         regex:
@@ -2472,4 +2487,231 @@ requests:
         regex:
           - " <a [^>]+Powered by Lithium"
         condition: or
+        part: body
+
+      - type: word
+        name: clockwork
+        words:
+          - 'X-Clockwork-Id:'
+          - 'X-Clockwork-Version:'
+        part: header
+
+      - type: word
+        name: symfony
+        words:
+          - "Set-Cookie: symfony="
+        part: header
+
+      - type: word
+        name: laravel
+        words:
+          - "Set-Cookie: laravel_session="
+        part: header
+
+      - type: word
+        name: express
+        words:
+          - "X-Powered-By: Express"
+        part: header
+
+      - type: word
+        name: rails
+        words:
+          - "meta content=\"authenticity_token\" name=\"csrf-param"
+        part: body
+
+      - type: word
+        name: angular
+        words:
+          - "ng-app=\""
+          - "<ng-app"
+          - "*ngIf="
+          - "ng-controller="
+        condition: or
+        part: body
+
+      - type: word
+        name: apache
+        words:
+          - "Apache"
+        part: header
+      - type: word
+        name: lighttpd
+        words:
+          - "lighttpd"
+        part: header
+      - type: word
+        name: lighttpd
+        words:
+          - "lighttpd"
+        part: header
+      - type: word
+        name: wsgiserver
+        words:
+          - "WSGIServer"
+        part: header
+      - type: word
+        name: simplehttp
+        words:
+          - "SimpleHTTP"
+        part: header
+      - type: word
+        name: twistedweb
+        words:
+          - "TwistedWeb"
+        part: header
+      - type: word
+        name: tsm
+        words:
+          - "TSM_HTTP"
+        part: header
+      - type: word
+        name: ms-iis
+        words:
+          - "Microsoft-IIS"
+        part: header
+      - type: word
+        name: ms-httpapi
+        words:
+          - "Microsoft-HTTPAPI"
+        part: header
+      - type: word
+        name: tomcat
+        words:
+          - "Tomcat"
+        part: header
+      - type: word
+        name: darkhttpd
+        words:
+          - "darkhttpd"
+        part: header
+      - type: word
+        name: cherrypy
+        words:
+          - "CherryPy"
+        part: header
+      - type: word
+        name: cherokee
+        words:
+          - "Cherokee"
+        part: header
+      - type: word
+        name: caddy
+        words:
+          - "Caddy"
+        part: header
+      - type: word
+        name: jetty
+        words:
+          - "Jetty"
+        part: header
+
+      - type: word
+        name: nginx
+        words:
+          - "Server: nginx"
+        part: header
+      - type: word
+        name: apache
+        words:
+          - "Server: Apache"
+        part: header
+
+      - type: word
+        name: php
+        words:
+          - "X-Powered-By: PHP"
+          - "PHPSESSID"
+        part: header
+      - type: word
+        name: node
+        words:
+          - "Server: NodeJS"
+          - "X-Powered-By: nodejs"
+        condition: or
+        part: header
+      - type: word
+        name: python
+        words:
+          - "Python/2."
+          - "Python/3."
+          - "CPython/3."
+        condition: or
+        part: header
+
+      - type: word
+        name: jenkins
+        words:
+          - "X-Jenkins"
+        part: header
+
+      - type: word
+        name: cloudflare
+        words:
+          - "cloudflare"
+        part: header
+      - type: word
+        name: akamai
+        words:
+          - "AkamaiGHost"
+        part: header
+      - type: word
+        name: sucuri
+        words:
+          - "Sucuri/Cloudproxy"
+        part: header
+      - type: word
+        name: Imperva
+        words:
+          - "X-Iinfo:"
+        part: header
+      - type: word
+        name: ddos-guard
+        words:
+          - "ddos-guard"
+        part: header
+      - type: word
+        name: dosarrest
+        words:
+          - "DOSarrest"
+          - "X-DIS-Request-ID:"
+        part: header
+      - type: word
+        name: arvancloud
+        words:
+          - "ArvanCloud"
+          - "AR-Request-ID:"
+        part: header
+
+      - type: word
+        name: aem_cms
+        words:
+          - "/etc/clientlibs/"
+          - "/content/dam/"
+        part: body
+
+      - type: word
+        name: lotus-domino
+        words:
+          - "Server: Lotus-Domino"
+        part: header
+
+      - type: word
+        name: mongo-express-web-gui
+        words:
+          - "Set-Cookie: mongo-express="
+        part: header
+
+      - type: word
+        name: pf-sense-ui
+        words:
+          - "Login to pfSense"
+
+      - type: word
+        name: weave-scope-dashboard
+        words:
+          - "<title>Weave Scope</title>"
+          - "__WEAVEWORKS_CSRF_TOKEN"
+          - "__CSRF_TOKEN_PLACEHOLDER__"
+        condition: and
         part: body

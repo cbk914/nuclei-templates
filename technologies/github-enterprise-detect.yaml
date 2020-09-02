@@ -1,9 +1,9 @@
-id: Github-Enterprise-Detect
+id: github-enterprise-detect
 
 info:
   name: Detect Github Enterprise
   author: ehsahil
-  severity: informative
+  severity: info
 
 requests:
   - method: GET

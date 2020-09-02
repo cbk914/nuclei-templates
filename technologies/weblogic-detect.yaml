@@ -1,9 +1,9 @@
-id: WebLogic-Detect
+id: weblogic-detect
 
 info:
   name: Detect Weblogic
   author: bing0o
-  severity: informative
+  severity: info
 
 requests:
   - method: GET
