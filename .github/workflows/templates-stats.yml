@@ -1,53 +1,36 @@
 name: 🗒 Templates Stats
 
 on:
-  create:
-    tags:
-      - v*
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.repository == 'projectdiscovery/nuclei-templates'
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@master
-        with:
-          fetch-depth: 0
-
-      - name: Setup golang
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.14
-
-      - name: Cache Go
-        id: cache-go
-        uses: actions/cache@v2
-        with:
-          path: /home/runner/go
-          key: ${{ runner.os }}-go
+      - uses: actions/checkout@master
+      - uses: actions/setup-go@v2
+        with: 
+          go-version: 1.17
 
       - name: Installing Template Stats
-        if: steps.cache-go.outputs.cache-hit != 'true'
-        env:
-          GO111MODULE: on
         run: |
-          go get -v github.com/projectdiscovery/templates-stats
+          go install github.com/projectdiscovery/templates-stats@main
         shell: bash
 
       - name: Markdown Stats
         run: |
-          templates-stats -output TEMPLATES-STATS.md -path {{ github.workspace }}
+          templates-stats -output TEMPLATES-STATS.md -path /home/runner/work/nuclei-templates/nuclei-templates/
         shell: bash
 
       - name: JSON Stats
         run: |
-          templates-stats -output TEMPLATES-STATS.json -json -path {{ github.workspace }}
+          templates-stats -output TEMPLATES-STATS.json -json -path /home/runner/work/nuclei-templates/nuclei-templates/
         shell: bash
 
       - name: Top 10 Stats
         run: |
-          templates-stats -output TOP-10.md -top 10 -path {{ github.workspace }}
+          templates-stats -output TOP-10.md -top 10 -path /home/runner/work/nuclei-templates/nuclei-templates/
         shell: bash
 
       - name: Get statistical changes
